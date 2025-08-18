@@ -88,62 +88,59 @@
       }
     </style>
   </head>
-<body>
-  <div class="container">
-    <h2>Factura</h2>
-    <form id="facturaForm">
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" id="nombre" required />
-      </div>
-      <div class="form-group">
-        <label>Correo electrónico</label>
-        <input type="email" id="correo" required />
-      </div>
-      <div class="form-group">
-        <label>Número de teléfono</label>
-        <input type="text" id="telefono" required />
-      </div>
+  <body>
+    <div class="container">
+      <h2>Factura</h2>
+      <form id="facturaForm">
+        <div class="form-group">
+          <label>Nombre del Cliente</label>
+          <input type="text" id="cliente" required />
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="correo" required />
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="text" id="telefono" required />
+        </div>
 
-      <table id="productos">
-        <thead>
-          <tr>
-            <th>Descripción</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input type="text" class="desc" required /></td>
-            <td>
-              <input type="number" class="cant" value="1" min="1" required />
-            </td>
-            <td>
-              <input
-                type="number"
-                class="precio"
-                value="0"
-                min="0"
-                required
-              />
-            </td>
-            <td class="subtotal">0.00</td>
-          </tr>
-        </tbody>
-      </table>
+        <table id="productos">
+          <thead>
+            <tr>
+              <th>Descripción</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" class="desc" required /></td>
+              <td>
+                <input type="number" class="cant" value="1" min="1" required />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="precio"
+                  value="0"
+                  min="0"
+                  required
+                />
+              </td>
+              <td class="subtotal">0.00</td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button" class="boton" id="addProducto">
+          + Agregar producto
+        </button>
+        <div class="total">Total: $<span id="total">0.00</span></div>
 
-      <button type="button" class="boton" id="addProducto">
-        + Agregar producto
-      </button>
-
-      <div class="total">Total: $<span id="total">0.00</span></div>
-
-      <button type="submit" class="boton">Generar Factura PDF</button>
-    </form>
-  </div>
-</body>
+        <button type="submit" class="boton">Generar Factura PDF</button>
+      </form>
+    </div>
 
     <script>
       const tbody = document.querySelector("#productos tbody");
