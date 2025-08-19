@@ -179,24 +179,29 @@ nav a:focus-visible {
 
 /* ===============  HERO  =============== */
 .hero-fade {
-  padding-top: 80px;
   position: relative;
-  height: 500px;
+  width: 100%;
+  height: 100vh; /* Pantalla completa */
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* contenido alineado a la derecha */
+  padding: 80px 5% 0; /* margen superior y lateral */
+  box-sizing: border-box;
 }
-.fade-image {
+
+/* Video de fondo */
+.video-background {
   position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 1.2s var(--ease);
-  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
 }
-.fade-image.visible {
-  opacity: 1;
-  z-index: 1;
-}
+
+/* Overlay degradado */
 .hero-fade::after {
   content: "";
   position: absolute;
@@ -205,24 +210,21 @@ nav a:focus-visible {
     180deg,
     rgba(0, 0, 0, 0.25),
     rgba(0, 0, 0, 0.35) 55%,
-    transparent
+    rgba(0, 0, 0, 0.6) 100%
   );
-  z-index: 2;
+  z-index: 0;
 }
-.fade-gradient {
-  display: none;
-} /* overlay unificado con ::after */
 
+/* Contenido encima del video */
 .fade-content {
-  position: absolute;
-  top: 6%;
-  right: 5%;
-  z-index: 3;
+  position: relative;
+  z-index: 2;
   color: #fff;
   text-align: right;
   max-width: 480px;
   text-wrap: balance;
 }
+
 .fade-content h2 {
   font-size: var(--fs-hero);
   margin: 0 0 14px;
@@ -230,6 +232,8 @@ nav a:focus-visible {
   line-height: 1.1;
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
 }
+
+/* Botón */
 .fade-content a.btn-mas {
   background-color: rgba(255, 255, 255, 0.25);
   color: #fff;
@@ -242,7 +246,9 @@ nav a:focus-visible {
   backdrop-filter: blur(6px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   display: inline-block;
+  transition: all 0.3s ease;
 }
+
 .fade-content a.btn-mas:hover,
 .fade-content a.btn-mas:focus-visible {
   background-color: rgba(255, 255, 255, 0.7);
@@ -250,17 +256,28 @@ nav a:focus-visible {
   transform: translateY(-2px);
 }
 
+/* Responsivo */
 @media (max-width: 768px) {
+  .hero-fade {
+    justify-content: center; /* centrar contenido en móvil */
+    padding: 100px 20px 0;
+  }
+
   .fade-content {
-    top: 10%;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
     text-align: center;
     max-width: 90%;
   }
 }
+#rotating-text {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
 
+#rotating-text.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 /* ===============  LOADER  =============== */
 #loader {
   position: fixed;
@@ -296,74 +313,110 @@ nav a:focus-visible {
 }
 
 /* ===============  BLOQUE EXPERIENCIA  =============== */
-.container {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 40px 20px;
+.experiencia-container {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 40px;
-  background: #f0f0f0;
-  border-radius: 15px;
-}
-.image-container,
-.content {
-  flex: 1 1 400px;
-  opacity: 0;
-  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
-}
-.image-container {
-  transform: scale(0.9);
-}
-.image-container.visible {
-  transform: scale(1);
-  opacity: 1;
-}
-.image-container img {
-  width: 100%;
-  border-radius: 20px;
-  box-shadow: var(--shadow-sm);
-}
-.image-container img:hover {
-  transform: scale(1.03);
+  gap: 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 20px;
 }
 
+/* Imagen ocupa menos espacio */
+.image-container {
+  flex: 0 0 50%; /* antes era 60%, ahora 50% */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container img {
+  width: 80%; /* reducimos tamaño visual */
+  height: auto; /* mantiene proporciones */
+  max-height: 400px; /* antes 600px */
+  border-radius: 20px;
+  object-fit: contain;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s ease;
+}
+
+.image-container img:hover {
+  transform: scale(1.05);
+}
+
+/* Texto ocupa 50% */
 .content {
-  transform: translateY(50px);
+  flex: 0 0 50%; /* antes 40%, ahora 50% para equilibrar */
 }
-.content.visible {
-  transform: none;
-  opacity: 1;
+
+.titulo-experiencia {
+  font-size: 3rem;
+  line-height: 1.2;
+  color: #522c84;
+  font-weight: 700;
 }
-.content h1 {
-  font-size: 2.4rem;
-  font-weight: 800;
-  margin-bottom: 16px;
-  color: var(--morado);
+
+.titulo-experiencia .numero {
+  color: var(--morado, #522c84);
+  font-size: 4.5rem;
+  font-weight: 900;
+  display: inline-block;
+  animation: pulse 2s infinite;
 }
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    color: var(--morado, #522c84);
+  }
+  50% {
+    transform: scale(1.2);
+    color: #522c84;
+  }
+}
+
 .content p {
-  font-size: 1.05rem;
-  margin-bottom: 26px;
-  color: #555;
+  font-size: 1.2rem;
+  color: #444;
+  margin-top: 20px;
   line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-  .container {
+/* Responsive */
+@media (max-width: 992px) {
+  .experiencia-container {
     flex-direction: column;
-    padding: 32px 15px;
-  }
-  .content h1 {
-    font-size: 1.9rem;
     text-align: center;
   }
-  .content p {
-    font-size: 1rem;
-    text-align: center;
+  .image-container,
+  .content {
+    flex: unset;
+    width: 100%;
+  }
+  .image-container img {
+    max-height: 300px;
+    width: 90%;
+  }
+  .titulo-experiencia {
+    font-size: 2.3rem;
+  }
+  .titulo-experiencia .numero {
+    font-size: 3.5rem;
   }
 }
+/* Animación de entrada desde abajo */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
 
+/* Cuando esté visible */
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 /* ===============  TESTIMONIOS  =============== */
 .testimonios {
   padding: 50px 20px;
@@ -801,10 +854,7 @@ nav a:focus-visible {
 }
 
 /* ===============  MISIÓN & VISIÓN  =============== */
-.mission-vision {
-  padding: 20px 5px;
-  background: #f5f9fc;
-}
+
 .mission-vision .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -879,7 +929,6 @@ nav a:focus-visible {
     margin: 0 auto;
   }
 }
-
 /* ===============  FOOTER  =============== */
 footer {
   background: var(--morado);

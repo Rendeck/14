@@ -68,91 +68,60 @@
       </div>
     </nav>
 
-    <!-- Primera Sección: Carrete de servicios -->
     <section class="hero-fade">
-      <div
-        class="fade-image"
-        style="background-image: url('img/terapiaindividual.jpg')"
-      ></div>
-      <div
-        class="fade-image"
-        style="background-image: url('img/terapiainfantil.jpg')"
-      ></div>
-      <div
-        class="fade-image"
-        style="background-image: url('img/terapiafamiliar.jpg')"
-      ></div>
-      <div
-        class="fade-image"
-        style="background-image: url('img/terapiapareja.jpg')"
-      ></div>
-      <div
-        class="fade-image"
-        style="background-image: url('img/1t_adolescente.jpg')"
-      ></div>
-      <div
-        class="fade-image"
-        style="background-image: url('img/terapiagrupal.jpg')"
-      ></div>
-      <div
-        class="fade-image"
-        style="background-image: url('img/terapialternativa.jpg')"
-      ></div>
-      <div
-        class="fade-image"
-        style="background-image: url('img/orientacionvocacional.jpg')"
-      ></div>
-      <div
-        class="fade-image"
-        style="background-image: url('img/p_psicologico.jpg')"
-      ></div>
+      <video autoplay muted loop playsinline class="video-background">
+        <source src="./video/psicologia.mp4" type="video/mp4" />
+      </video>
 
       <div class="fade-content">
-        <h2 id="terapia-titulo">Terapia Individual</h2>
-        <a id="terapia-boton" href="terapia_individual.html" class="btn-mas">
-          Más información <i class="fas fa-arrow-right"></i>
-        </a>
+        <h2 id="rotating-text">Psicología para tu bienestar</h2>
+        <a id="rotating-btn" href="#servicios" class="btn-mas"
+          >Más información</a
+        >
       </div>
-
-      <div class="fade-gradient"></div>
     </section>
 
     <!-- Segunda Sección: Experiencia -->
-    <div class="container">
-      <div class="image-container" id="image">
-        <img
-          src="https://lamenteesmaravillosa.com/wp-content/uploads/2020/04/familia-hablando-salon.jpg"
-          alt="Experiencia"
-        />
+    <section class="experiencia-section">
+      <div class="container experiencia-container">
+        <!-- Imagen -->
+        <div class="image-container" data-aos="fade-right">
+          <img
+            src="https://lamenteesmaravillosa.com/wp-content/uploads/2020/04/familia-hablando-salon.jpg"
+            alt="Experiencia"
+          />
+        </div>
+
+        <!-- Texto -->
+        <div class="content" data-aos="fade-left">
+          <h1 class="titulo-experiencia">
+            <span class="numero" id="years">10</span> años brindando atención
+            integral y humana
+          </h1>
+          <p class="fade-up">
+            En <em>Psicólogos Elige Hoy</em>, nos dedicamos a acompañarte con
+            profesionalismo y calidez, ofreciendo soluciones personalizadas que
+            apoyan tu bienestar emocional, mental y nutricional en cada etapa de
+            tu vida.
+          </p>
+        </div>
       </div>
-      <div class="content" id="text">
-        <h1 class="titulo-experiencia">
-          Más de 10 años brindando atención integral y humana
-        </h1>
-        <p>
-          En <em>Psicólogos Elige Hoy</em>, nos dedicamos a acompañarte con
-          profesionalismo y calidez, ofreciendo soluciones personalizadas que
-          apoyan tu bienestar emocional, mental y nutricional en cada etapa de
-          tu vida.
-        </p>
-      </div>
-    </div>
+    </section>
 
     <!-- Tercera Sección: Misión y Visión -->
     <section class="mission-vision" id="mision-vision">
       <div class="container">
         <div class="section-title">
-          <h2 class="fade-up">Nuestra Misión y Visión</h2>
-          <p class="fade-up">
+          <h2 class="reveal" data-anim="fade-down">Nuestra Misión y Visión</h2>
+          <p class="reveal" data-anim="fade-down">
             "Crear un futuro donde la salud mental sea accesible y valorada por
             todos."
           </p>
         </div>
+
         <div class="cards">
-          <div class="card mission fade-left">
-            <div class="icon">
-              <i class="fas fa-hands-helping"></i>
-            </div>
+          <div class="card glass-card mission reveal" data-anim="fade-left">
+            <div class="icon"><i class="fas fa-hands-helping"></i></div>
             <h3>Misión</h3>
             <p>
               Brindar atención psicológica profesional y humana, acompañando a
@@ -160,10 +129,9 @@
               personal.
             </p>
           </div>
-          <div class="card vision fade-right">
-            <div class="icon">
-              <i class="fas fa-eye"></i>
-            </div>
+
+          <div class="card glass-card vision reveal" data-anim="fade-right">
+            <div class="icon"><i class="fas fa-eye"></i></div>
             <h3>Visión</h3>
             <p>
               Ser un centro de referencia en salud mental, reconocido por
@@ -1084,6 +1052,62 @@
         );
 
         items.forEach((el) => io.observe(el));
+      });
+
+      // Mensajes con sus enlaces
+      const slides = [
+        { text: "Terapia Individual", link: "#individual" },
+        { text: "Terapia de Pareja", link: "#pareja" },
+        { text: "Terapia Familiar", link: "#familiar" },
+        { text: "Terapia Infantil", link: "#infantil" },
+        { text: "Terapia Adolecentes", link: "#pareja" },
+        { text: "Terapia Grupal", link: "#pareja" },
+        { text: "Peritaje Psicologico", link: "#pareja" },
+        { text: "Orientación vocacional", link: "#servicios" },
+      ];
+
+      let index = 0;
+      const textElement = document.getElementById("rotating-text");
+      const buttonElement = document.getElementById("rotating-btn");
+
+      function changeSlide() {
+        textElement.classList.remove("show"); // quitar animación
+        setTimeout(() => {
+          textElement.textContent = slides[index].text;
+          buttonElement.href = slides[index].link;
+          textElement.classList.add("show"); // animación de entrada
+          index = (index + 1) % slides.length;
+        }, 500);
+      }
+
+      // iniciar
+      textElement.classList.add("show");
+      setInterval(changeSlide, 4000);
+
+      const faders = document.querySelectorAll(".fade-up");
+
+      const appearOptions = {
+        threshold: 0.2, // porcentaje visible para activar
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const appearOnScroll = new IntersectionObserver(function (
+        entries,
+        appearOnScroll
+      ) {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            entry.target.classList.remove("show"); // desaparece al salir
+            return;
+          } else {
+            entry.target.classList.add("show"); // aparece al entrar
+          }
+        });
+      },
+      appearOptions);
+
+      faders.forEach((fader) => {
+        appearOnScroll.observe(fader);
       });
     </script>
   </body>
