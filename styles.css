@@ -278,6 +278,7 @@ nav a:focus-visible {
   opacity: 1;
   transform: translateY(0);
 }
+
 /* ===============  LOADER  =============== */
 #loader {
   position: fixed;
@@ -417,6 +418,7 @@ nav a:focus-visible {
   opacity: 1;
   transform: translateY(0);
 }
+
 /* ===============  TESTIMONIOS  =============== */
 .testimonios {
   padding: 50px 20px;
@@ -929,6 +931,7 @@ nav a:focus-visible {
     margin: 0 auto;
   }
 }
+
 /* ===============  FOOTER  =============== */
 footer {
   background: var(--morado);
@@ -1370,19 +1373,352 @@ footer a:hover {
   text-decoration: underline; /* o 'none' si prefieres sin subrayado */
 }
 
-/* Estilos para pantallas pequeñas */
+/* === Header logo: tamaño + pulso + brillo === */
+.header .logo {
+  height: 90px; /* más grande que los 80px originales */
+  margin: 10px 0;
+
+  /* Brillo base suave */
+  filter: drop-shadow(0 0 8px rgba(150, 100, 220, 0.45));
+
+  /* Palpitación + brillo */
+  animation: logoPulse 2.2s ease-in-out infinite,
+    logoGlow 3s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
+/* Un poco más discreto en móviles */
 @media (max-width: 768px) {
-  .header {
-    text-align: center;
-  }
-  .menu {
-    flex-direction: column; /* Cambia a columna en pantallas pequeñas */
+  .header .logo {
+    height: 96px;
   }
 }
 
-/* Estilos para pantallas medianas */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .content {
-    padding: 20px; /* Ajustes de padding */
+/* Palpitación */
+@keyframes logoPulse {
+  0%,
+  100% {
+    transform: scale(1);
   }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Variación de brillo */
+@keyframes logoGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(150, 100, 220, 0.45));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(150, 100, 220, 0.7));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header .logo {
+    animation: none !important;
+  }
+}
+
+/* Transición suave del nav */
+nav {
+  transition: background 0.35s var(--ease), box-shadow 0.35s var(--ease),
+    border-color 0.35s var(--ease);
+}
+
+/* Estado scrolled: vidrio morado translúcido */
+nav.nav-glass {
+  background: rgba(82, 44, 132, 0.65); /* #522c84 con alpha */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 6px 22px rgba(82, 44, 132, 0.18);
+}
+
+/* Opcional: en móviles, un vidrio más claro para legibilidad */
+@media (max-width: 768px) {
+  nav.nav-glass {
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Cuando el nav está en modo vidrio, los links se ponen blancos */
+nav.nav-glass a {
+  color: #fff;
+}
+
+/* Mantén el hover */
+nav.nav-glass a:hover,
+nav.nav-glass a:focus-visible {
+  background-color: rgba(255, 255, 255, 0.2); /* un blanco translúcido */
+  color: #fff;
+  box-shadow: none;
+}
+
+/* === MISIÓN & VISIÓN: cards transparentes -> morado en hover === */
+.mission-vision .card {
+  /* Estado base: “transparente” con borde sutil */
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: 2px solid rgba(82, 44, 132, 0.28); /* morado con alpha */
+  box-shadow: none;
+  transition: background 0.28s var(--ease), color 0.28s var(--ease),
+    border-color 0.28s var(--ease), box-shadow 0.28s var(--ease),
+    transform 0.28s var(--ease);
+  animation: none; /* quitamos el palpitar aquí para que el hover luzca mejor */
+}
+
+/* Tipografía e ícono en estado base */
+.mission-vision .card h3 {
+  color: var(--morado);
+  transition: color 0.28s var(--ease);
+}
+.mission-vision .card p {
+  color: #334; /* legible sobre fondo de la sección */
+  transition: color 0.28s var(--ease);
+}
+.mission-vision .card .icon {
+  color: var(--morado);
+  transition: color 0.28s var(--ease);
+}
+
+/* Hover: fondo morado sólido, texto/ícono blancos, ligero “lift” */
+.mission-vision .card:hover {
+  background: var(--morado) !important;
+  border-color: transparent;
+  box-shadow: var(--shadow-brand-md);
+  transform: translateY(-6px);
+}
+.mission-vision .card:hover h3,
+.mission-vision .card:hover p,
+.mission-vision .card:hover .icon {
+  color: #fff;
+}
+
+/* === Misión & Visión: ENTRADA MENOS BORROSA === */
+/* Reducimos el blur inicial y el intermedio; mantenemos el resto del efecto */
+.mission-vision .reveal {
+  /* antes: blur(6px) */
+  filter: blur(2.5px);
+}
+
+/* Re-definimos los keyframes con menos blur */
+@keyframes mvTiltInLeft {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translate(-40px, 20px) rotateY(-18deg)
+      rotateX(8deg) scale(0.92);
+    filter: blur(2.5px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0.8px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+@keyframes mvTiltInRight {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translate(40px, 20px) rotateY(18deg)
+      rotateX(8deg) scale(0.92);
+    filter: blur(2.5px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0.8px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+@keyframes mvDropIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translateY(-24px) rotateX(-10deg) scale(0.96);
+    filter: blur(2.5px);
+    letter-spacing: 0.06em;
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0.8px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+    letter-spacing: normal;
+  }
+}
+
+/* (Opcional) Si la quieres aún menos borrosa, baja 2.5px → 1.5px y 0.8px → 0.4px */
+
+/* Subrayado animado del H2 (bien notorio) */
+.mission-vision .section-title h2 {
+  position: relative;
+  overflow: visible;
+}
+.mission-vision .section-title h2::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 0;
+  height: 4px;
+  border-radius: 4px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, var(--morado), #8b5cf6);
+  opacity: 0.9;
+}
+.mission-vision .section-title h2.underline-on::after {
+  animation: mvUnderline 0.9s var(--ease) forwards 0.1s;
+}
+@keyframes mvUnderline {
+  0% {
+    width: 0;
+  }
+  70% {
+    width: 120%;
+  }
+  100% {
+    width: 80%;
+  }
+}
+
+/* Respeto preferencia de reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .mission-vision .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .mission-vision .section-title h2::after {
+    width: 80%;
+  }
+}
+
+/* Estado base para poder re-animar al volver a entrar */
+.mission-vision {
+  perspective: 1000px;
+}
+
+.mission-vision .reveal {
+  opacity: 0;
+  transform: translateY(40px) rotateX(12deg) scale(0.92);
+  filter: blur(6px);
+  will-change: opacity, transform, filter;
+}
+
+/* Keyframes (si aún no los pegaste) */
+@keyframes mvTiltInLeft {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translate(-40px, 20px) rotateY(-18deg)
+      rotateX(8deg) scale(0.92);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(1.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+@keyframes mvTiltInRight {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translate(40px, 20px) rotateY(18deg)
+      rotateX(8deg) scale(0.92);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(1.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+@keyframes mvDropIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translateY(-24px) rotateX(-10deg) scale(0.96);
+    filter: blur(6px);
+    letter-spacing: 0.08em;
+  }
+  60% {
+    opacity: 1;
+    filter: blur(1.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+    letter-spacing: normal;
+  }
+}
+
+/* Subrayado animado del H2 */
+.mission-vision .section-title h2 {
+  position: relative;
+}
+.mission-vision .section-title h2::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 0;
+  height: 4px;
+  border-radius: 4px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, var(--morado), #8b5cf6);
+  opacity: 0.9;
+}
+.mission-vision .section-title h2.underline-on::after {
+  animation: mvUnderline 0.9s var(--ease) forwards 0.1s;
+}
+@keyframes mvUnderline {
+  0% {
+    width: 0;
+  }
+  70% {
+    width: 120%;
+  }
+  100% {
+    width: 80%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-vision .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .mission-vision .section-title h2::after {
+    width: 80%;
+  }
+}
+
+/* === Misión & Visión: usar la misma fuente de los títulos === */
+.mission-vision .section-title h2 {
+  font-family: "Montserrat", sans-serif; /* igual que h1/h2/h3 globales */
+  font-weight: 800;
+  font-size: var(--fs-h2); /* tamaño consistente con tus tokens */
+  letter-spacing: 0.2px; /* mismo tracking que el resto */
+  line-height: 1.1;
 }

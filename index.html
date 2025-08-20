@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Psicólogos Elige Hoy AE</title>
+    <title>Elige Hoy AE Psicólogos1</title>
     <!--
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
@@ -22,11 +22,7 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <link
-      rel="icon"
-      href="../templates/img/elige_hoy.png"
-      type="image/x-icon"
-    />
+    <link rel="icon" href="img/elige_hoy.png" type="image/x-icon" />
   </head>
   <body>
     <div id="loader">
@@ -56,8 +52,10 @@
             <a href="terapia_infantil.html">Terapia Infantil y de Lenguaje</a>
             <a href="terapia_familiar.html">Terapia Familiar</a>
             <a href="terapia_grupal.html">Terapia Grupal</a>
-            <a href="terapia_alternativa.html">Terpaia Alternativa</a>
-            <a href="orientacion_vocacional.html">Orientación Vocacional</a>
+            <a href="templates/terapia_alternativa.html">Terpaia Alternativa</a>
+            <a href="templates/orientacion_vocacional.html"
+              >Orientación Vocacional</a
+            >
             <a href="peritaje_psicologico.html">Peritaje Psicológico</a>
             <a href="#convenios">Convenios</a>
           </div>
@@ -68,6 +66,7 @@
       </div>
     </nav>
 
+    <!-- Primera Sección: Carrete de servicios -->
     <section class="hero-fade">
       <video autoplay muted loop playsinline class="video-background">
         <source src="./video/psicologia.mp4" type="video/mp4" />
@@ -185,7 +184,13 @@
               alt="Instalación 2"
             />
           </div>
-
+          <div class="carousel-item">
+            <img
+              class="d-block w-100 img-carousel-mini"
+              src="img/lugar_3.jpg"
+              alt="Instalación 3"
+            />
+          </div>
           <div class="carousel-item">
             <img
               class="d-block w-100 img-carousel-mini"
@@ -1023,6 +1028,119 @@
     <!-- Bootstrap 4 JS y dependencias -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const items = [...document.querySelectorAll(".ubicacion .reveal")];
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const el = entry.target;
+
+              if (entry.isIntersecting) {
+                // Escalonado: 0ms, 120ms, 240ms…
+                const idx = items.indexOf(el);
+                el.style.transitionDelay = idx * 120 + "ms";
+                el.classList.add("visible");
+              } else {
+                // Quita visible para que pueda re-animar al volver a entrar
+                el.classList.remove("visible");
+                el.style.transitionDelay = "0ms";
+              }
+            });
+          },
+          {
+            threshold: 0.25, // ~25% visible
+            rootMargin: "0px 0px -10% 0px", // evita parpadeos al borde inferior
+          }
+        );
+
+        items.forEach((el) => io.observe(el));
+      });
+    </script>
+
+    <script>
+      (function () {
+        const nav = document.querySelector("nav");
+        const threshold = 12; // píxeles de desplazamiento para activar el efecto
+
+        function toggleNavGlass() {
+          if (window.scrollY > threshold) {
+            nav.classList.add("nav-glass");
+          } else {
+            nav.classList.remove("nav-glass");
+          }
+        }
+
+        // Ejecuta al cargar y al hacer scroll
+        window.addEventListener("scroll", toggleNavGlass, { passive: true });
+        window.addEventListener("load", toggleNavGlass);
+      })();
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Si el usuario prefiere menos movimiento, no armamos el observador "loop"
+        const reduce = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+        if (reduce) return;
+
+        const easing = "cubic-bezier(.2,.7,.2,1)";
+        const items = Array.from(
+          document.querySelectorAll(".mission-vision .reveal")
+        );
+        if (!items.length) return;
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const el = entry.target;
+              const anim = (el.dataset.anim || "").toLowerCase();
+
+              // Define qué animación usamos
+              let name = "mvDropIn";
+              if (anim.includes("left")) name = "mvTiltInLeft";
+              if (anim.includes("right")) name = "mvTiltInRight";
+              if (anim.includes("down")) name = "mvDropIn";
+
+              if (entry.isIntersecting) {
+                // Re-inicia la animación cada vez que entra
+                el.style.animation = "none";
+                void el.offsetWidth; // reflow para resetear
+                const idx = items.indexOf(el); // stagger por orden en el DOM
+                el.style.animation = `${name} 900ms ${easing} ${
+                  idx * 130
+                }ms both`;
+
+                // Subrayado del título (reiniciamos para poder re-animarlo)
+                if (el.matches(".section-title h2")) {
+                  el.classList.remove("underline-on");
+                  void el.offsetWidth;
+                  el.classList.add("underline-on");
+                }
+              } else {
+                // Al salir de vista, vuelve al estado base para poder re-entrar animando
+                el.style.animation = "none";
+                el.style.opacity = "";
+                el.style.transform = "";
+                el.style.filter = "";
+                if (el.matches(".section-title h2")) {
+                  el.classList.remove("underline-on");
+                }
+              }
+            });
+          },
+          {
+            threshold: 0.35, // entra cuando ~35% es visible
+            rootMargin: "0px 0px -12% 0px", // pequeño margen para evitar parpadeos
+          }
+        );
+
+        items.forEach((el) => io.observe(el));
+      });
+    </script>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
