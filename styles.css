@@ -430,6 +430,7 @@ nav a:focus-visible {
   margin-bottom: 30px;
   color: var(--azul);
 }
+
 .testimonios-carousel {
   display: flex;
   gap: 20px;
@@ -442,21 +443,53 @@ nav a:focus-visible {
 .testimonios-carousel::-webkit-scrollbar {
   display: none;
 }
+
 .testimonio {
   flex: 0 0 90%;
   scroll-snap-align: center;
   box-sizing: border-box;
-  background: #fff;
+
+  /* 🎨 Efecto vidrio */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0.55)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
   border-radius: 12px;
   padding: 20px;
   text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
   box-shadow: var(--shadow-sm);
-  will-change: transform;
+  will-change: transform, backdrop-filter;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+    background 0.3s var(--ease);
 }
+
 .testimonio:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
+
+  /* 🎨 Fondo morado degradado tipo barra */
+  background: linear-gradient(
+    135deg,
+    rgba(82, 44, 132, 0.9),
+    rgba(138, 77, 191, 0.85)
+  );
+  border-color: transparent;
+
+  color: #fff; /* Texto blanco para contraste */
 }
+
+.testimonio:hover h3,
+.testimonio:hover p,
+.testimonio:hover .estrellas {
+  color: #fff !important; /* texto y estrellas en blanco al hover */
+}
+
 @media (min-width: 768px) {
   .testimonio {
     flex: 0 0 300px;
@@ -481,85 +514,8 @@ nav a:focus-visible {
   margin-bottom: 12px;
 }
 .testimonio p {
-  color: #555;
+  color: #333;
   font-size: 1rem;
-}
-
-/* ===============  BLOG  =============== */
-#blog {
-  max-width: 1200px;
-  margin: auto;
-  padding: 50px 20px;
-}
-#blog h2 {
-  font-size: 2.2rem;
-  text-align: center;
-  margin-bottom: 36px;
-  color: var(--morado);
-  opacity: 0;
-  transform: translateY(-20px);
-  animation: titleEntry 1s var(--ease) forwards;
-  letter-spacing: 2px;
-}
-@keyframes titleEntry {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.96);
-    letter-spacing: 8px;
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(4px) scale(1.02);
-    letter-spacing: 3px;
-  }
-  100% {
-    opacity: 1;
-    transform: none;
-    letter-spacing: 2px;
-  }
-}
-.blog-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-}
-.blog-card {
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.5s var(--ease), box-shadow 0.3s var(--ease);
-  opacity: 0;
-  transform: translateY(30px) scale(0.98);
-}
-.blog-card.visible {
-  opacity: 1;
-  transform: none;
-}
-.blog-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-md);
-}
-.blog-thumb {
-  width: 100%;
-  height: 300px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-bottom: 1px solid #ddd;
-}
-.blog-content {
-  padding: 20px;
-}
-.blog-content h3 {
-  margin: 0 0 10px;
-  font-size: 1.25rem;
-  color: var(--morado);
-}
-.blog-content p {
-  font-size: 0.95rem;
-  color: #080808;
-  margin-bottom: 10px;
 }
 
 /* ===============  CLÍNICA (GALERÍA)  =============== */
